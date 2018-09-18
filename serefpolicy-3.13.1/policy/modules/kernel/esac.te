@@ -1,0 +1,12 @@
+policy_module(esac, 1.0.0)
+
+########################################
+#
+# Declarations
+#
+
+attribute exempted_es_r_constraint;
+attribute exempted_es_w_constraint;
+attribute es_r_constraint;
+attribute es_w_constraint;
+

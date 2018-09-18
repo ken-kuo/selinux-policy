@@ -1,0 +1,5 @@
+## <summary>ESCore access control policy</summary>
+## <required val="true">
+##	Contains attributes used in ESAC policy.
+## </required>
+
