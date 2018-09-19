@@ -1,4 +1,4 @@
-/etc/default/grub	--	gen_context(system_u:object_r:bootloader_etc_t,s0)
+/etc/default/grub	--	gen_context(es_u_ro:object_r:bootloader_etc_t,s0)
 /etc/lilo\.conf.*		gen_context(system_u:object_r:bootloader_etc_t,s0)
 /etc/yaboot\.conf.*		gen_context(system_u:object_r:bootloader_etc_t,s0)
 /etc/zipl\.conf.*		gen_context(system_u:object_r:bootloader_etc_t,s0)

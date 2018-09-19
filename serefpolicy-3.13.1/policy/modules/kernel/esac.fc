@@ -1,1 +1,9 @@
-# no ESAC file contexts
+#
+# /etc
+#
+/etc/pam.d/.*				gen_context(es_u_ro:object_r:etc_t,s0)
+/etc/ssh/sshd_config		gen_context(es_u_ro:object_r:etc_t,s0)
+/etc/sudoers.d				gen_context(es_u_ro:object_r:etc_t,s0)
+/etc/sudoers				gen_context(es_u_ro:object_r:etc_t,s0)
+/usr/lib/systemd/system/es-policy.service	gen_context(es_u_ro:object_r:systemd_unit_file_t,s0)
+/usr/libexec/selinux/es-restorecon.sh		gen_context(es_u_ro:object_r:bin_t,s0)
