@@ -1,0 +1,28 @@
+policy_module(liboath, 1.1.0)
+
+########################################
+#
+# Declarations
+#
+
+type oath_t;
+
+gen_require(`
+	type etc_t, sshd_t, sshd_exec_t, unconfined_t, fs_t, setroubleshootd_t;
+	attribute exempted_es_r_constraint, exempted_es_w_constraint;
+	attribute es_w_constraint;
+	class file{ rename unlink create write read open getattr};
+	class filesystem associate;
+')
+
+typeattribute sshd_t exempted_es_r_constraint;
+typeattribute sshd_t exempted_es_w_constraint;
+typeattribute sshd_exec_t es_w_constraint;
+
+filetrans_pattern(sshd_t, etc_t, oath_t, file, "users.oath.new")
+
+allow sshd_t etc_t:file { rename unlink create write read open getattr };
+allow {sshd_t unconfined_t} oath_t:file
+						{rename unlink create write read open getattr};
+allow oath_t fs_t:filesystem associate;
+allow setroubleshootd_t oath_t:file getattr;
