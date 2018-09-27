@@ -260,15 +260,16 @@ undefine(`basic_ubac_constraint')
 undefine(`basic_ubac_conditions')
 undefine(`exempted_ubac_constraint')
 
-# MCS policy for the specific user
-
-# MCS policy for the file classes
+# ESCore policy for the diagnostic user
 
 constrain file { read ioctl lock execute execute_no_trans }
-	((r1 == unconfined_r) or (u2 != es_u_no) or (t1 == exempted_es_r_constraint));
+	((r1 == unconfined_r) or
+	(u2 != es_u_no) or (t1 == exempted_es_r_constraint));
 
 constrain file { write setattr append unlink link rename }
-	((r1 == unconfined_r) or ((u2 != es_u_no) and (u2 != es_u_ro) and (t2 != es_w_constraint)) or (t1 == exempted_es_w_constraint));
+	((r1 == unconfined_r) or
+	((u2 != es_u_no) and (u2 != es_u_ro) and (t2 != es_w_constraint)) or
+	(t1 == exempted_es_w_constraint));
 
 constrain dir { search read ioctl lock }
 	((u1 != es_u) or (u2 != es_u_no));
@@ -285,25 +286,26 @@ constrain { lnk_file chr_file blk_file sock_file } { getattr read ioctl }
 constrain { lnk_file chr_file blk_file sock_file } { write setattr }
 	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
 
-# New filesystem object labels must be dominated by the relabeling subject
-# clearance, also the objects are single-level.
 constrain file { create relabelto }
 	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
 
 constrain { file } { relabelfrom }
-	((r1 == unconfined_r) or ((u1 != es_u) and (u2 != es_u_no) and (u2 != es_u_ro)));
+	((r1 == unconfined_r) or
+	((u1 != es_u) and (u2 != es_u_no) and (u2 != es_u_ro)));
 
-# new file labels must be dominated by the relabeling subject clearance
-constrain { dir file lnk_file chr_file blk_file sock_file fifo_file } { relabelfrom }
+constrain { dir file lnk_file chr_file blk_file sock_file fifo_file }
+	{ relabelfrom }
 	((r1 == unconfined_r) or ((u2 != es_u_no) and (u2 != es_u_ro)));
 
 constrain { file lnk_file fifo_file } { create }
 	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
 
 constrain { file lnk_file fifo_file } { relabelto }
-	((r1 == unconfined_r) or ((u1 != es_u) and (t2 != es_w_constraint) and (t2 != es_r_constraint)));
+	((r1 == unconfined_r) or
+	((u1 != es_u) and (t2 != es_w_constraint) and (t2 != es_r_constraint)));
 
-constrain { dir file lnk_file chr_file blk_file sock_file fifo_file } { create relabelto }
+constrain { dir file lnk_file chr_file blk_file sock_file fifo_file }
+	{ create relabelto }
 	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
 
 
