@@ -259,3 +259,44 @@ basic_ubac_constraint(peer)
 undefine(`basic_ubac_constraint')
 undefine(`basic_ubac_conditions')
 undefine(`exempted_ubac_constraint')
+
+# MCS policy for the specific user
+
+# MCS policy for the file classes
+constrain file { read ioctl lock execute execute_no_trans }
+	((u1 != es_u) or (u2 != es_u_no));
+
+constrain file { write setattr append unlink link rename }
+	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
+
+constrain dir { search read ioctl lock }
+	((u1 != es_u) or (u2 != es_u_no));
+
+constrain dir { write setattr append unlink link rename add_name remove_name }
+	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
+
+constrain fifo_file { open }
+	((u1 != es_u) or (u2 != es_u_no));
+
+constrain { lnk_file chr_file blk_file sock_file } { getattr read ioctl }
+	((u1 != es_u) or (u2 != es_u_no));
+
+constrain { lnk_file chr_file blk_file sock_file } { write setattr }
+	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
+
+# New filesystem object labels must be dominated by the relabeling subject
+# clearance, also the objects are single-level.
+constrain file { create relabelto }
+	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
+
+# new file labels must be dominated by the relabeling subject clearance
+constrain { dir file lnk_file chr_file blk_file sock_file fifo_file } { relabelfrom }
+	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
+
+constrain { file lnk_file fifo_file } { create relabelto }
+	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
+
+constrain { dir file lnk_file chr_file blk_file sock_file fifo_file } { create relabelto }
+	((u1 != es_u) or ((u2 != es_u_no) and (u2 != es_u_ro)));
+
+
